@@ -8,7 +8,7 @@ YELLOW=$'\033[33m'
 RESET=$'\033[0m'
 
 greeting() {
-	echo "Welcome in animals game!"
+	echo "Вітаю у грі ""Тварини""! Задумайте тварину, а я спробую вгадати"
 }
 
 read_yes_or_no() {
@@ -25,7 +25,7 @@ read_animal_from_base() {
 }
 
 ask_animal() {
-	read_yes_or_no "Is is a ${GREEN}${NAME}${RESET}"
+	read_yes_or_no "Це ${GREEN}${NAME}${RESET}"
 }
 
 ask_question() {
@@ -33,12 +33,12 @@ ask_question() {
 }
 
 ask_new_animal() {
-	read -r -p "I surrender. What is it? " NEW_NAME
+	read -r -p "Я здаюся. Хто це? " NEW_NAME
 }
 
 ask_and_save_new_animal_with_question() {
 	ask_new_animal
-	read -r -p "Enter a question to distinguish ${GREEN}${NAME}${RESET} (no) from ${GREEN}${NEW_NAME}${RESET} (yes) (without ?): " QUESTION
+	read -r -p "Задайте питання для того, щоб відрізнити ${GREEN}${NEW_NAME}${RESET} (так) від ${GREEN}${NAME}${RESET} (ні) (без ""?""): " QUESTION
 	YES_ID=$(uuidgen)
 	echo "${NAME},${QUESTION},${YES_ID}," > "../data/$ANIMAL_ID"
 	echo "${NEW_NAME},,," > "../data/$YES_ID"
@@ -52,7 +52,7 @@ ask_and_save_new_animal_without_question() {
 }
 
 print_I_win() {
-	echo "${YELLOW}I win.${RESET}"
+	echo "${YELLOW}Я виграв.${RESET}"
 }
 
 # Entry point
