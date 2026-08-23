@@ -8,7 +8,7 @@ YELLOW=$'\033[33m'
 RESET=$'\033[0m'
 
 greeting() {
-	echo "Вітаю у грі ""Тварини""! Задумайте тварину, а я спробую вгадати"
+	echo "Вітаю у грі 'Тварини'! Задумайте тварину, а я спробую вгадати"
 }
 
 read_yes_or_no() {
@@ -25,34 +25,43 @@ read_animal_from_base() {
 }
 
 ask_animal() {
-	read_yes_or_no "Це ${GREEN}${NAME}${RESET}"
+	read_yes_or_no "- Це ${GREEN}${NAME}${RESET}"
 }
 
 ask_question() {
-	read_yes_or_no "${QUESTION}"
+	read_yes_or_no "- ${QUESTION}"
 }
 
 ask_new_animal() {
-	read -r -p "Я здаюся. Хто це? " NEW_NAME
+	read -r -p "- Я здаюся. Хто це? " NEW_NAME
+}
+
+write_new_animal() {
+	echo "${NEW_NAME},,," > "../data/$1"
+}
+
+update_existing_animal() {
+	echo "${NAME},${QUESTION},${YES_ID},${NO_ID}" > "../data/$ANIMAL_ID"
 }
 
 ask_and_save_new_animal_with_question() {
 	ask_new_animal
-	read -r -p "Задайте питання для того, щоб відрізнити ${GREEN}${NEW_NAME}${RESET} (так) від ${GREEN}${NAME}${RESET} (ні) (без ""?""): " QUESTION
+	read -r -p "- Задайте питання для того, щоб відрізнити ${GREEN}${NEW_NAME}${RESET} (так) від ${GREEN}${NAME}${RESET} (ні) (без '?'): " QUESTION
 	YES_ID=$(uuidgen)
-	echo "${NAME},${QUESTION},${YES_ID}," > "../data/$ANIMAL_ID"
-	echo "${NEW_NAME},,," > "../data/$YES_ID"
+	NO_ID=""
+	update_existing_animal
+	write_new_animal "$YES_ID"
 }
 
 ask_and_save_new_animal_without_question() {
 	ask_new_animal
 	NO_ID=$(uuidgen)
-	echo "${NAME},${QUESTION},${YES_ID},${NO_ID}" > "../data/$ANIMAL_ID"
-	echo "${NEW_NAME},,," > "../data/$NO_ID"	
+	update_existing_animal
+	write_new_animal "$NO_ID"
 }
 
 print_I_win() {
-	echo "${YELLOW}Я виграв.${RESET}"
+	echo "${YELLOW}- Я виграв.${RESET}"
 }
 
 # Entry point
