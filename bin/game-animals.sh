@@ -63,9 +63,6 @@ ANIMAL_ID="root"
 # main loop
 while true; do
 
-	# TODO remove trace
-	echo "TRACE: animal_id = $ANIMAL_ID"
-
 	read_animal_from_base
 
 	ask_animal
